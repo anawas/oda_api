@@ -1,5 +1,7 @@
 name: Update Fork
 on:
+  workflow_dispatch:
+  
   schedule:
     # Runs at 12:00am UTC every day
     - cron: '0 2 * * *'
