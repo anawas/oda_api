@@ -11,7 +11,7 @@ jobs:
 
     steps:
     - name: Checkout using TOKEN
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         token: ${{ secrets.SECRET_FOR_UPDATE_FORK_ACTION }}
 
@@ -22,7 +22,7 @@ jobs:
 
     - name: Sync with Upstream using UPSTREAM_PAT
       run: |
-        git remote add upstream https://x-access-token:${{ secrets.UPSTREAM_PAT }}@github.com/ORIGINAL_OWNER/ORIGINAL_REPOSITORY.git
+        git remote add upstream https://github.com/oda-hub/oda_api.git
         git fetch upstream
         git merge upstream/main --allow-unrelated-histories # To deal with divergent histories
         git push origin main
