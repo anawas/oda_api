@@ -1,19 +1,28 @@
-name: Update Fork
+name: Sync Fork
+
 on:
-  workflow_dispatch:
-  
   schedule:
-    # Runs at 12:00am UTC every day
-    - cron: '0 2 * * *'
+    - cron: '0 2 * * *' # This will run the action daily at 2am
+  workflow_dispatch:
 
 jobs:
-  update-fork:
+  sync:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: Shurtu-gal/autoupdate-fork-action@v1
-        with:
-          github_token: ${{ secrets.BOT_TOKEN }}
-          pr_filter: labelled
-          pr_label: fork-update
-          # Only update PRs on master branch
-          base_branch: master
+    - name: Checkout using TOKEN
+      uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.TOKEN }}
+
+    - name: Configure Git
+      run: |
+        git config user.name "anawas"
+        git config user.email "menkalinan56@gmail.com"
+
+    - name: Sync with Upstream using UPSTREAM_PAT
+      run: |
+        git remote add upstream https://x-access-token:${{ secrets.UPSTREAM_PAT }}@github.com/ORIGINAL_OWNER/ORIGINAL_REPOSITORY.git
+        git fetch upstream
+        git merge upstream/main --allow-unrelated-histories # To deal with divergent histories
+        git push origin main
