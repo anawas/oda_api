@@ -15,14 +15,9 @@ jobs:
       with:
         token: ${{ secrets.SECRET_FOR_UPDATE_FORK_ACTION }}
 
-    - name: Configure Git
-      run: |
-        git config user.name "anawas"
-        git config user.email "menkalinan56@gmail.com"
-
     - name: Sync with Upstream using UPSTREAM_PAT
       run: |
         git remote add upstream https://github.com/oda-hub/oda_api.git
         git fetch upstream
-        git merge upstream/main --allow-unrelated-histories # To deal with divergent histories
-        git push origin main
+        git merge upstream/master --allow-unrelated-histories # To deal with divergent histories
+        git push origin master
